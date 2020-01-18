@@ -13,14 +13,15 @@ RUN python -c "import nltk; nltk.download('punkt')"
 # Add Model code
 COPY Summarize.py /app/
 
+RUN apt-get update && apt-get install -y git zip wget
 RUN git clone https://github.com/dongjun-Lee/text-summarization-tensorflow.git
 COPY text-summarization-tensorflow/*.py /app/
 
-# Add pre-trained model weights
-#RUN wget https://drive.google.com/open?id=1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-
-#RUN wget https://drive.google.com/uc?export=download&confirm=l5j4&id=1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-
-#RUN unzip pre_trained.zip
+# Add pre-trained model weights (gymnastics to download from google drive)
+RUN wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://drive.google.com/uc?export=download&id=1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-" -O pre_trained.zip && rm -rf /tmp/cookies.txt
+RUN unzip pre_trained.zip
 COPY pre_trained/ /app/
+RUN rm pre_trained.zip
 
 # Add sample data
 RUN cd text-summarization-tensorflow && unzip sample_data.zip

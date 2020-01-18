@@ -1,0 +1,30 @@
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+spec:
+  name: my-app
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: text-summarization-seldon:version
+          name: classifier
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            httpGet:
+              path: /health/status
+              port: http
+              scheme: HTTP
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            httpGet:
+              path: /health/status
+              port: http
+              scheme: HTTP
+            timeoutSeconds: 1
