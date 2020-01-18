@@ -1,2 +1,5 @@
-seldon-core
-tensorflow
+seldon-core>=0.2.5
+tensorflow==1.13.1
+nltk==3.2.5
+wget==3.2
+gensim==3.3.0
