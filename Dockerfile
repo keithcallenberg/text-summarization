@@ -12,7 +12,9 @@ RUN python -c "import nltk; nltk.download('punkt')"
 
 # Add Model code
 COPY Summarize.py /app/
-COPY text-summarization-tensorflow-master/*.py /app/
+
+RUN git clone https://github.com/dongjun-Lee/text-summarization-tensorflow.git
+COPY text-summarization-tensorflow/*.py /app/
 
 # Add pre-trained model weights
 #RUN wget https://drive.google.com/open?id=1V8pS1eoiv51wfiVp2rOB7IvJ5PeQs2n-
@@ -21,7 +23,8 @@ COPY text-summarization-tensorflow-master/*.py /app/
 COPY pre_trained/ /app/
 
 # Add sample data
-COPY text-summarization-tensorflow-master/sample_data/ /app/
+RUN cd text-summarization-tensorflow && unzip sample_data.zip
+COPY text-summarization-tensorflow/sample_data/ /app/
 
 # Define environment variables
 ENV MODEL_NAME Summarize
