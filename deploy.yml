@@ -1,13 +1,16 @@
 apiVersion: machinelearning.seldon.io/v1alpha2
 kind: SeldonDeployment
 spec:
-  name: my-app
+  name: summarize
   predictors:
   - componentSpecs:
     - spec:
         containers:
-        - image: text-summarization-seldon:version
-          name: classifier
+        - image: keithcallenberg/text-summarization-seldon:latest
+          name: summarize
+          resources:
+            requests:
+              cpu: 0.5
           livenessProbe:
             failureThreshold: 3
             initialDelaySeconds: 60
@@ -28,3 +31,13 @@ spec:
               port: http
               scheme: HTTP
             timeoutSeconds: 1
+    - hpaSpec:
+        minReplicas: 1
+        maxReplicas: 4
+        metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 20

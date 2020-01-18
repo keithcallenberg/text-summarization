@@ -5,4 +5,4 @@ https://github.com/dongjun-Lee/text-summarization-tensorflow
 
 * Seldon-based REST API endpoint with the following signature: POST /predict
 
-* Kubernetes deployment using YAML with an autoscaling policy is also provided.
+* Kubernetes deployment using YAML with an autoscaling policy is also provided, but hasn't yet been tested.
