@@ -70,3 +70,9 @@ class Summarize(object):
         x = [d + (self.article_max_len - len(d)) * [self.word_dict["<padding>"]] for d in x]
 
         return x
+
+    def health_status(self):
+        response = self.predict(["us auto sales will likely be weaker in #### , a senior executive at ford motor company said wednesday .",
+                                 "the los angeles dodgers acquired south korean right-hander jae seo from the new york mets on wednesday in a four-player swap ."])
+        assert len(response) == 2, "health check returning bad predictions"
+        return response
